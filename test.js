@@ -35,7 +35,7 @@ const chalkStub = Object.create(chalk, {
 chalkStub.yellow.bold = chalk.yellow.bold;
 chalkStub.red.bold = chalk.red.bold;
 
-const formatter = proxyquire("../../../lib/formatters/codeframe", { chalk: chalkStub });
+const formatter = proxyquire("../../../../lib/cli-engine/formatters/codeframe", { chalk: chalkStub });
 
 //------------------------------------------------------------------------------
 // Tests
