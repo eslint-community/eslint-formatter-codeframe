@@ -1,0 +1,35 @@
+{
+	"name": "eslint-formatter-codeframe",
+	"version": "7.32.0",
+	"description": "ESLint’s official `codeframe` formatter, extracted from ESLint 7",
+	"keywords": [
+		"lint",
+		"javascript",
+		"ecmascript"
+	],
+	"repository": "fregante/eslint-formatter-codeframe",
+	"license": "MIT",
+	"author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
+	"dependencies": {
+		"@babel/code-frame": "7.12.11",
+		"chalk": "^4.0.0"
+	},
+	"engines": {
+		"node": "^10.12.0 || >=12.0.0"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"scripts": {
+		"test": "mocha"
+	},
+	"devDependencies": {
+		"chai": "^4.3.4",
+		"mocha": "^9.0.3",
+		"path": "^0.12.7",
+		"proxyquire": "^2.1.3",
+		"sinon": "^11.1.2",
+		"strip-ansi": "^6.0.0"
+	}
+}
