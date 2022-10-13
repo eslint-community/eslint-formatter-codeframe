@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   stale:
-    if: github.repository == 'eslint-community/eslint-plugin-promise'
+    if: github.repository == 'eslint-community/eslint-formatter-codeframe'
     runs-on: ubuntu-latest
     steps:
       - name: 🥺 Handle Ghosting
