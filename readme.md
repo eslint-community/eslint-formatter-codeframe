@@ -4,8 +4,6 @@
 
 This formatter has been removed from ESLint 8 so it lives as a standalone module here.
 
-**Warning:** This module is not maintained. If you're an ESLint contributor or dependable open-sourcerer, open an issue here and I'll pass you this repo and npm name. You can also ping me on Twitter [@fregante](https://twitter.com/fregante)
-
 ## Install
 
 ```sh
