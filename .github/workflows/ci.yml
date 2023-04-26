@@ -1,23 +1,37 @@
 name: CI
+
 on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+  schedule:
+    - cron: 0 0 * * 0
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   test:
-    name: Test
+    name: 🧪 Test (Node@${{ matrix.node }})
     strategy:
       matrix:
-        node: [16.x, 15.x, 14.x, 13.x, 12.x, 10.x, "10.12.0"]
+        node: [10.12.0, 10, 12.0.0, 12, 14, 16, 18, 20]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node }}
-    - name: Install Packages
-      run: npm install
-    - name: Test
-      run: npm test
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v3
+
+      - name: ⎔ Setup Node v${{ matrix.node }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: 📥 Install dependencies
+        run: npm install
+
+      - name: ▶️ Run test script
+        run: npm run test
+
+      - name: ⬆️ Upload coverage report
+        uses: codecov/codecov-action@v3
