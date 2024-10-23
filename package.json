@@ -11,7 +11,7 @@
 	"license": "MIT",
 	"author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
 	"dependencies": {
-		"@babel/code-frame": "7.12.11",
+		"@babel/code-frame": "7.25.9",
 		"chalk": "^4.0.0"
 	},
 	"engines": {
