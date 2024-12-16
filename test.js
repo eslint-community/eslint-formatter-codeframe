@@ -12,30 +12,11 @@
 const assert = require("chai").assert;
 const sinon = require("sinon");
 const proxyquire = require("proxyquire");
-const chalk = require("chalk");
+const pc = require("picocolors");
 const path = require("path");
 const stripAnsi = require("strip-ansi");
 
-// Chalk protects its methods so we need to inherit from it for Sinon to work.
-const chalkStub = Object.create(chalk, {
-    yellow: {
-        value(str) {
-            return chalk.yellow(str);
-        },
-        writable: true
-    },
-    red: {
-        value(str) {
-            return chalk.red(str);
-        },
-        writable: true
-    }
-});
-
-chalkStub.yellow.bold = chalk.yellow.bold;
-chalkStub.red.bold = chalk.red.bold;
-
-const formatter = proxyquire(".", { chalk: chalkStub });
+const formatter = proxyquire(".", { pc });
 
 //------------------------------------------------------------------------------
 // Tests
@@ -93,13 +74,15 @@ describe("formatter:codeframe", () => {
         });
 
         it("should return bold yellow summary when there are only warnings", () => {
-            sinon.spy(chalkStub.yellow, "bold");
-            sinon.spy(chalkStub.red, "bold");
+            sinon.spy(pc, "yellow");
+            sinon.spy(pc, "red");
+            sinon.spy(pc, "bold");
 
             formatter(code);
 
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 1);
-            assert.strictEqual(chalkStub.red.bold.callCount, 0);
+            assert.strictEqual(pc.yellow.callCount, 2);
+            assert.strictEqual(pc.red.callCount, 0);
+            assert.strictEqual(pc.bold.callCount, 2);
         });
 
         describe("when the warning is fixable", () => {
@@ -154,13 +137,15 @@ describe("formatter:codeframe", () => {
         });
 
         it("should return bold red summary when there are errors", () => {
-            sinon.spy(chalkStub.yellow, "bold");
-            sinon.spy(chalkStub.red, "bold");
+            sinon.spy(pc, "yellow");
+            sinon.spy(pc, "red");
+            sinon.spy(pc, "bold");
 
             formatter(code);
 
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-            assert.strictEqual(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(pc.yellow.callCount, 0);
+            assert.strictEqual(pc.red.callCount, 2);
+            assert.strictEqual(pc.bold.callCount, 2);
         });
     });
 
@@ -224,16 +209,18 @@ describe("formatter:codeframe", () => {
         });
 
         it("should return bold red summary when at least 1 of the messages is an error", () => {
-            sinon.spy(chalkStub.yellow, "bold");
-            sinon.spy(chalkStub.red, "bold");
+            sinon.spy(pc, "yellow");
+            sinon.spy(pc, "red");
+            sinon.spy(pc, "bold");
             code[0].messages[0].severity = 1;
             code[0].warningCount = 1;
             code[0].errorCount = 1;
 
             formatter(code);
 
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-            assert.strictEqual(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(pc.yellow.callCount, 1);
+            assert.strictEqual(pc.red.callCount, 2);
+            assert.strictEqual(pc.bold.callCount, 3);
         });
     });
 
