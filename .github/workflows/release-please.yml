@@ -1,0 +1,31 @@
+on:
+  push:
+    branches:
+      - main
+name: release-please
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          config-file: .github/release-please/config.json
+          manifest-file: .github/release-please/manifest.json
+
+      - uses: actions/checkout@v4
+        if: ${{ steps.release.outputs.release_created }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          registry-url: https://registry.npmjs.org
+        if: ${{ steps.release.outputs.release_created }}
+      - run: |
+          npm install -g npm@latest # npm 11.5.1 or later is required so update to latest to be sure
+          npm install
+          npm publish --provenance
+        if: ${{ steps.release.outputs.release_created }}
