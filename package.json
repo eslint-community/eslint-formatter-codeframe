@@ -7,7 +7,7 @@
 		"javascript",
 		"ecmascript"
 	],
-	"repository": "fregante/eslint-formatter-codeframe",
+	"repository": "eslint-community/eslint-formatter-codeframe",
 	"license": "MIT",
 	"author": "Nicholas C. Zakas <nicholas+npm@nczconsulting.com>",
 	"dependencies": {
