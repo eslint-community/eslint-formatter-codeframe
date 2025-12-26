@@ -12,30 +12,11 @@
 const assert = require("chai").assert;
 const sinon = require("sinon");
 const proxyquire = require("proxyquire");
-const chalk = require("chalk");
+const pc = require("picocolors");
 const path = require("path");
 const stripAnsi = require("strip-ansi");
 
-// Chalk protects its methods so we need to inherit from it for Sinon to work.
-const chalkStub = Object.create(chalk, {
-    yellow: {
-        value(str) {
-            return chalk.yellow(str);
-        },
-        writable: true
-    },
-    red: {
-        value(str) {
-            return chalk.red(str);
-        },
-        writable: true
-    }
-});
-
-chalkStub.yellow.bold = chalk.yellow.bold;
-chalkStub.red.bold = chalk.red.bold;
-
-const formatter = proxyquire(".", { chalk: chalkStub });
+const formatter = proxyquire(".", { pc });
 
 //------------------------------------------------------------------------------
 // Tests
@@ -86,20 +67,22 @@ describe("formatter:codeframe", () => {
                 "> 1 | var foo = 1;",
                 "    |     ^",
                 "  2 |  var bar = 2;",
-                "  3 | ",
+                "  3 |",
                 "\n",
                 "1 warning found."
             ].join("\n"));
         });
 
         it("should return bold yellow summary when there are only warnings", () => {
-            sinon.spy(chalkStub.yellow, "bold");
-            sinon.spy(chalkStub.red, "bold");
+            sinon.spy(pc, "yellow");
+            sinon.spy(pc, "red");
+            sinon.spy(pc, "bold");
 
             formatter(code);
 
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 1);
-            assert.strictEqual(chalkStub.red.bold.callCount, 0);
+            assert.strictEqual(pc.yellow.callCount, 2);
+            assert.strictEqual(pc.red.callCount, 0);
+            assert.strictEqual(pc.bold.callCount, 2);
         });
 
         describe("when the warning is fixable", () => {
@@ -115,7 +98,7 @@ describe("formatter:codeframe", () => {
                     "> 1 | var foo = 1;",
                     "    |     ^",
                     "  2 |  var bar = 2;",
-                    "  3 | ",
+                    "  3 |",
                     "\n",
                     "1 warning found.",
                     "1 warning potentially fixable with the `--fix` option."
@@ -147,20 +130,22 @@ describe("formatter:codeframe", () => {
                 "> 1 | var foo = 1;",
                 "    |     ^",
                 "  2 |  var bar = 2;",
-                "  3 | ",
+                "  3 |",
                 "\n",
                 "1 error found."
             ].join("\n"));
         });
 
         it("should return bold red summary when there are errors", () => {
-            sinon.spy(chalkStub.yellow, "bold");
-            sinon.spy(chalkStub.red, "bold");
+            sinon.spy(pc, "yellow");
+            sinon.spy(pc, "red");
+            sinon.spy(pc, "bold");
 
             formatter(code);
 
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-            assert.strictEqual(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(pc.yellow.callCount, 0);
+            assert.strictEqual(pc.red.callCount, 2);
+            assert.strictEqual(pc.bold.callCount, 2);
         });
     });
 
@@ -212,28 +197,30 @@ describe("formatter:codeframe", () => {
                 "error: Missing semicolon (semi) at foo.js:1:14:",
                 "> 1 | const foo = 1",
                 "    |              ^",
-                "  2 | ",
+                "  2 |",
                 "\n",
                 "error: 'foo' is assigned a value but never used (no-unused-vars) at foo.js:1:7:",
                 "> 1 | const foo = 1",
                 "    |       ^",
-                "  2 | ",
+                "  2 |",
                 "\n",
                 "2 errors found."
             ].join("\n"));
         });
 
         it("should return bold red summary when at least 1 of the messages is an error", () => {
-            sinon.spy(chalkStub.yellow, "bold");
-            sinon.spy(chalkStub.red, "bold");
+            sinon.spy(pc, "yellow");
+            sinon.spy(pc, "red");
+            sinon.spy(pc, "bold");
             code[0].messages[0].severity = 1;
             code[0].warningCount = 1;
             code[0].errorCount = 1;
 
             formatter(code);
 
-            assert.strictEqual(chalkStub.yellow.bold.callCount, 0);
-            assert.strictEqual(chalkStub.red.bold.callCount, 1);
+            assert.strictEqual(pc.yellow.callCount, 1);
+            assert.strictEqual(pc.red.callCount, 2);
+            assert.strictEqual(pc.bold.callCount, 3);
         });
     });
 
@@ -258,13 +245,13 @@ describe("formatter:codeframe", () => {
 
             assert.strictEqual(stripAnsi(result), [
                 "error: 'foo' is assigned a value but never used (no-unused-vars) at foo.js:4:11:",
-                "  2 | ",
+                "  2 |",
                 "  3 |     // a comment",
                 "> 4 |     const foo = 1;",
                 "    |           ^",
                 "  5 | }",
-                "  6 | ",
-                "  7 | ",
+                "  6 |",
+                "  7 |",
                 "\n",
                 "1 error found."
             ].join("\n"));
@@ -305,12 +292,12 @@ describe("formatter:codeframe", () => {
                 "error: Missing semicolon (semi) at foo.js:1:14:",
                 "> 1 | const foo = 1",
                 "    |              ^",
-                "  2 | ",
+                "  2 |",
                 "\n",
                 "error: Missing semicolon (semi) at bar.js:1:14:",
                 "> 1 | const bar = 2",
                 "    |              ^",
-                "  2 | ",
+                "  2 |",
                 "\n",
                 "2 errors found."
             ].join("\n"));
@@ -341,7 +328,7 @@ describe("formatter:codeframe", () => {
                 "error: Parsing error: Unexpected token { at foo.js:1:2:",
                 "> 1 | e{}",
                 "    |  ^",
-                "  2 | ",
+                "  2 |",
                 "\n",
                 "1 error found."
             ].join("\n"));
