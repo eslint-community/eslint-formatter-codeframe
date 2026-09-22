@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.32.3](https://github.com/eslint-community/eslint-formatter-codeframe/compare/v7.32.2...v7.32.3) (2026-09-22)
+
+
+### 🧹 Chores
+
+* **deps:** Bump @babel/code-frame from 7.12.11 to 7.27.1 ([#88](https://github.com/eslint-community/eslint-formatter-codeframe/issues/88)) ([9c5d160](https://github.com/eslint-community/eslint-formatter-codeframe/commit/9c5d1608c220b0c1e812f58014a720277e69211b))
+* **deps:** Bump actions/checkout from 4 to 6 ([#118](https://github.com/eslint-community/eslint-formatter-codeframe/issues/118)) ([dc07f91](https://github.com/eslint-community/eslint-formatter-codeframe/commit/dc07f91771bb0321f5e365fa05875d16e47ff577))
+* **deps:** Bump actions/checkout from 6 to 7 ([#120](https://github.com/eslint-community/eslint-formatter-codeframe/issues/120)) ([831de87](https://github.com/eslint-community/eslint-formatter-codeframe/commit/831de87cd4d65fba5bbf777769850db7b80e5f9f))
+* **deps:** Bump actions/setup-node from 4 to 7 ([#111](https://github.com/eslint-community/eslint-formatter-codeframe/issues/111)) ([04c9758](https://github.com/eslint-community/eslint-formatter-codeframe/commit/04c9758b6fb0ac5b427a911f3a77a7c7f0198a71))
+* **deps:** Bump codecov/codecov-action from 5 to 7 ([#121](https://github.com/eslint-community/eslint-formatter-codeframe/issues/121)) ([bd02308](https://github.com/eslint-community/eslint-formatter-codeframe/commit/bd023085f8d84dee10b0d8d263c76874c755fa31))
+* **deps:** Bump googleapis/release-please-action from 4 to 5 ([#123](https://github.com/eslint-community/eslint-formatter-codeframe/issues/123)) ([f15f0b2](https://github.com/eslint-community/eslint-formatter-codeframe/commit/f15f0b23b586fd15c4de800403fdfca9e8aa76d0))
+
 ## [7.32.2](https://github.com/eslint-community/eslint-formatter-codeframe/compare/v7.32.1...v7.32.2) (2025-10-19)
 
 

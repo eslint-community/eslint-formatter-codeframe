@@ -1,6 +1,6 @@
 {
 	"name": "eslint-formatter-codeframe",
-	"version": "7.32.2",
+	"version": "7.32.3",
 	"description": "ESLint’s official `codeframe` formatter, extracted from ESLint 7",
 	"keywords": [
 		"lint",
